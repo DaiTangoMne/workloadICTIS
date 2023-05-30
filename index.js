@@ -10,10 +10,10 @@ const rows = xlsx.utils.sheet_to_json(worksheet);
 
 const client = new Client({
   user: 'postgres',
-  host: 'localhost',
-  database: 'ictis',
+  host: '5.tcp.eu.ngrok.io',
+  database: 'ictis',  
   password: 'bovaev',
-  port: 5433
+  port: 19074
 });
 
 client.connect();
