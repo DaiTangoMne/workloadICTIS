@@ -1,6 +1,4 @@
-import sys
+from sqlalchemy import create_engine
 
-if __name__ == '__main__':
-    sys.path.extend(['C:\\Users\\mksim\\Desktop\\ictis\\workloadICTIS\\py\\venv',
-                     'C:\\Users\\mksim\\Desktop\\ictis\\workloadICTIS\\py\\venv\\Lib\\site-packages'])
-    import pandas
+engine = create_engine("postgresql+psycopg2://postgres:root@localhost:5432/workload", echo=True)
+engine.connect()
