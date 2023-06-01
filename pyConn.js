@@ -1,6 +1,6 @@
 const spawn = require('child_process').spawn;
 
-const process = spawn('python', ['./py/main.py', 'requests']);
+const process = spawn('python', ['./py/main.py', 'sqlalchemy']);
 
 process.stdout.on('data', data => {
     console.log(data.toString());

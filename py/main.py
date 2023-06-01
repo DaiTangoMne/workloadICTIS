@@ -1,4 +1,7 @@
-from sqlalchemy import create_engine
+import sys
+sys.path = ['C:\\Users\\mksim\\Desktop\\ictis\\workloadICTIS\\py', 'C:\\Users\\mksim\\Desktop\\ictis\\workloadICTIS\\py', 'C:\\Users\\mksim\\AppData\\Local\\Programs\\Python\\Python311\\python311.zip', 'C:\\Users\\mksim\\AppData\\Local\\Programs\\Python\\Python311\\DLLs', 'C:\\Users\\mksim\\AppData\\Local\\Programs\\Python\\Python311\\Lib', 'C:\\Users\\mksim\\AppData\\Local\\Programs\\Python\\Python311', 'C:\\Users\\mksim\\Desktop\\ictis\\workloadICTIS\\py\\venv', 'C:\\Users\\mksim\\Desktop\\ictis\\workloadICTIS\\py\\venv\\Lib\\site-packages']
 
-engine = create_engine("postgresql+psycopg2://postgres:root@localhost:5432/workload", echo=True)
-engine.connect()
+if __name__ == '__main__':
+    import modify
+    modify.test_insert()
+
