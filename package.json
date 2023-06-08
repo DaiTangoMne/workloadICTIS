@@ -16,5 +16,8 @@
     "pug": "^3.0.2",
     "python-shell": "^5.0.0",
     "xlsx": "^0.18.5"
+  },
+  "devDependencies": {
+    "electron": "^25.0.0"
   }
 }
