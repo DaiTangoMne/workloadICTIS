@@ -1,14 +1,12 @@
 from models.database import Session
 from models.educators import Educators
 from models.entry import Entry
-import math
-from time import sleep
 
 
 def insert_educators(df):
     """
     Парсит строки Dataframe с преподавателями
-    и инсертит в бд
+    и инсертит в БД
     :param df: Dataframe
     """
     session = Session()
@@ -24,6 +22,11 @@ def insert_educators(df):
 
 
 def get_entry(row):
+    """
+    Заполняет объект класса Entry данными из Dataframe Row
+    :param row: строка Dataframe
+    :return: заполненный объект класса Entry
+    """
     unit = row[2]  # str
     department = row[3]  # str
     ID1Cdep = int(row[4])
@@ -73,6 +76,10 @@ def get_entry(row):
 
 
 def insert_entry(df):
+    """
+    Инсертит Dataframe входного файла в БД
+    :param df: Dataframe входного файла
+    """
     session = Session()
     for row in df.itertuples():
         try:
