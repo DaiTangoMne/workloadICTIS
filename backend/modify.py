@@ -1,6 +1,49 @@
+import json
+from sqlalchemy import select
 from models.database import Session
 from models.educators import Educators
 from models.entry import Entry
+import pickle as pk
+
+rates = {
+    'ассистент': [900.0, 250.0],
+    'преподаватель': [900.0, 250.0],
+    'директор института': [600.0, 70.0],
+    'доцент': [800.0, 150.0],
+    'заведующий кафедрой': [650.0, 100.0],
+    'профессор': [700.0, 120.0],
+    'старший преподаватель': [850, 200]
+}
+
+
+def get_tb_educators():
+    session = Session()
+    json_obj = []
+    for class_instance in session.query(Educators).all():
+        vars(class_instance).pop('_sa_instance_state')
+        json_obj.append(vars(class_instance))
+    return json_obj
+
+
+def get_tb_educator(id: int):
+    session = Session()
+    obj = vars(session.query(Educators).get(id))
+    obj.pop('_sa_instance_state')
+    return obj
+print(get_tb_educator(657))
+
+def get_educators_XL(row):
+    rank = row[7]
+    if rank is not None:
+        try:
+            mx, mn = rates[rank.lower()]
+        except:
+            mx = None
+            mn = None
+    else:
+        mx = None
+        mn = None
+    return Educators(row[1], row[2], row[3], row[4], row[5], row[6], row[7], float(row[8]), mx, mn)
 
 
 def insert_educators(df):
@@ -13,15 +56,15 @@ def insert_educators(df):
     for row in df.itertuples():
         # _, unit, post, name, email, state, degree, rank, rate = row
         try:
-            educator = Educators(row[1], row[2], row[3], row[4], row[5], row[6], row[7], float(row[8]))
+            educator = get_educators_XL(row)
             session.add(educator)
         except Exception as ex:
-            print(ex, row[1], row[2], row[3], row[4], row[5], row[6], row[7], float(row[8]))
+            print(ex)
         session.commit()
     session.close()
 
 
-def get_entry(row):
+def get_entry_XL(row):
     """
     Заполняет объект класса Entry данными из Dataframe Row
     :param row: строка Dataframe
@@ -86,7 +129,7 @@ def insert_entry(df):
             if str(row[1]) == 'Итого':
                 print('Итого')
             else:
-                entry = get_entry(row)
+                entry = get_entry_XL(row)
                 session.add(entry)
                 session.commit()
         except Exception as ex:
@@ -107,3 +150,5 @@ def test_insert():
     session.add(educator)
     session.commit()
     session.close()
+
+# print(get_educators())
