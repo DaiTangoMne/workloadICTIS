@@ -30,7 +30,7 @@ def get_tb_educator(id: int):
     obj = vars(session.query(Educators).get(id))
     obj.pop('_sa_instance_state')
     return obj
-print(get_tb_educator(657))
+
 
 def get_educators_XL(row):
     rank = row[7]
@@ -118,6 +118,22 @@ def get_entry_XL(row):
                  hoursBudget, hoursNonBudget, hoursAuditory, hoursRatingControl, ZETcount)
 
 
+def get_tb_entry(id: int):
+    session = Session()
+    obj = vars(session.query(Entry).get(id))
+    obj.pop('_sa_instance_state')
+    return obj
+
+
+def get_tb_entrys():
+    session = Session()
+    json_obj = []
+    for class_instance in session.query(Entry).all():
+        vars(class_instance).pop('_sa_instance_state')
+        json_obj.append(vars(class_instance))
+    return json_obj
+
+
 def insert_entry(df):
     """
     Инсертит Dataframe входного файла в БД
@@ -134,7 +150,6 @@ def insert_entry(df):
                 session.commit()
         except Exception as ex:
             print(ex)
-            input()
     session.close()
 
 
