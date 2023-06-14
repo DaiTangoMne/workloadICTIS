@@ -25,6 +25,19 @@ def get_tb_educators():
     return json_obj
 
 
+def get_tb_entry_with_filters(workload: list = None):
+    session = Session()
+    if workload is not None:
+        json_obj = []
+        for class_instance in session.query(Entry).filter(Entry.workload.in_(workload)):
+            vars(class_instance).pop('_sa_instance_state')
+            json_obj.append(vars(class_instance))
+        return json_obj
+
+
+get_tb_entry_with_filters(['Практические', "Лекционные"])
+
+
 def get_tb_educator(id: int):
     session = Session()
     obj = vars(session.query(Educators).get(id))

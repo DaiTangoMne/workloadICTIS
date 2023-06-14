@@ -47,5 +47,16 @@ def get_entry(id: int):
     return json_
 
 
+@app.route("/entry/filter", methods=['GET'])
+@cross_origin()
+def get_entry_filter():
+    workload = []
+    workload.extend(request.args.get('workload').split(','))
+    print(request.args.get('workload'))
+    json_ = json.dumps(modify.get_tb_entry_with_filters(workload), sort_keys=False, indent=4, separators=(',', ': '),
+                       ensure_ascii=False)
+    return json_
+
+
 if __name__ == '__main__':
     app.run(debug=True)
