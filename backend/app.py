@@ -18,8 +18,25 @@ def index():
 @app.route("/educators", methods=["GET"])
 @cross_origin()
 def get_educators():
-    json_ = json.dumps(modify.get_tb_educators(), sort_keys=False, indent=4, separators=(',', ': '),
-                       ensure_ascii=False, )
+    flag = False
+    unit = request.args.get('unit')
+    post = request.args.get('post')
+    rate = request.args.get('rate')
+    if unit is not None:
+        unit = [i.strip() for i in unit.split(',')]
+        flag = True
+    if post is not None:
+        post = [i.strip() for i in post.split(',')]
+        flag = True
+    if rate is not None:
+        rate = [i.strip() for i in rate.split(',')]
+        flag = True
+    if flag:
+        json_ = json.dumps(modify.get_tb_educators_with_filters(unit, post, rate), sort_keys=False, indent=4,
+                           separators=(',', ': '), ensure_ascii=False, )
+    else:
+        json_ = json.dumps(modify.get_tb_educators(), sort_keys=False, indent=4, separators=(',', ': '),
+                           ensure_ascii=False, )
     return json_
 
 
@@ -34,8 +51,17 @@ def get_educator(id: int):
 @app.route("/entry", methods=['GET'])
 @cross_origin()
 def get_entrys():
-    json_ = json.dumps(modify.get_tb_entrys(), sort_keys=False, indent=4, separators=(',', ': '),
-                       ensure_ascii=False)
+    flag = False
+    workload = request.args.get('workload')
+    if workload is not None:
+        workload = [i.strip() for i in workload.split(',')]
+        flag = True
+    if flag:
+        json_ = json.dumps(modify.get_tb_entry_with_filters(workload), sort_keys=False, indent=4,
+                           separators=(',', ': '), ensure_ascii=False, )
+    else:
+        json_ = json.dumps(modify.get_tb_entrys(), sort_keys=False, indent=4, separators=(',', ': '),
+                           ensure_ascii=False, )
     return json_
 
 
@@ -43,17 +69,6 @@ def get_entrys():
 @cross_origin()
 def get_entry(id: int):
     json_ = json.dumps(modify.get_tb_entry(id), sort_keys=False, indent=4, separators=(',', ': '),
-                       ensure_ascii=False)
-    return json_
-
-
-@app.route("/entry/filter", methods=['GET'])
-@cross_origin()
-def get_entry_filter():
-    workload = []
-    workload.extend(request.args.get('workload').split(','))
-    print(request.args.get('workload'))
-    json_ = json.dumps(modify.get_tb_entry_with_filters(workload), sort_keys=False, indent=4, separators=(',', ': '),
                        ensure_ascii=False)
     return json_
 
